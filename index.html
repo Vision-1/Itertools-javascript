@@ -86,10 +86,36 @@
 			return returnVal
 		}
 		
+		const chain = (...iterables)=>{
+			const chainIter = (...iterables) => ({
+				[Symbol.iterator](){
+					return{
+						idx:-1,
+						get vals(){
+							let newarr = []
+							for(let arr of iterables){
+								newarr = newarr.concat(Array.from(arr))
+							}
+							return newarr
+						},
+						next(){
+							this.idx+=1
+							return this.vals[this.idx]
+						}
+					}
+				}
+			})
+			let p = chainIter(...iterables)
+			return p[Symbol.iterator]()
+		}
+		
 		let count = counter({startval: 1,callback : function(val){
 			return val + val
 		}})
 		let cyclevar = cycle('abcd')
-		document.write(compress('ABCDEF',[1,0,1,0,1,1]))
+		let iter = chain('ABCDEF',[1,0,1,0,1,1])
+		for(let i of range(10)){
+			document.write(iter.next(),'<br>')
+		}
 	</script>
 </html>
