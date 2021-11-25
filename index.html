@@ -86,6 +86,11 @@
 			return returnVal
 		}
 		
+		function enumerate(arr){
+			let otherarr = range(1,arr.length)
+			return zip(arr,otherarr)
+		}
+		
 		const chain = (...iterables)=>{
 			const chainIter = (...iterables) => ({
 				[Symbol.iterator](){
@@ -114,8 +119,8 @@
 		}})
 		let cyclevar = cycle('abcd')
 		let iter = chain('ABCDEF',[1,0,1,0,1,1])
-		for(let i of range(10)){
-			document.write(iter.next(),'<br>')
+		for(let [a,b] of enumerate([1,0,1,0,1,1])){
+			document.write(a,b,'<br>')
 		}
 	</script>
 </html>
